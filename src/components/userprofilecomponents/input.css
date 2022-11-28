@@ -1,0 +1,19 @@
+#pincode input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.slider {
+    transform: translateX(0);
+    transition: all 1s linear;;
+    /* transition-duration: 1s;
+    transition-delay: .20s; */
+}
+
+.hostipalSlider {
+    transform: translateX(0);
+    transition: all 1s linear;;
+    /* transition-duration: 1s;
+    transition-delay: .20s; */
+}

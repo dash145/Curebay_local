@@ -1,0 +1,77 @@
+<html>
+
+<head>
+    <title>MapmyIndia Plugin - Place Picker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="desciption" content="Mapmyindia Place Picker Plugin">
+    <style>
+        body {
+            margin: 0
+        }
+        
+        #map {
+            width: 100%;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <script src="https://apis.mapmyindia.com/advancedmaps/v1/037b73dd-90f0-4764-98e4-d372d7a105fa/map_load?v=1.3"></script>
+    <script src="https://apis.mapmyindia.com/advancedmaps/api/037b73dd-90f0-4764-98e4-d372d7a105fa/map_sdk_plugins"></script> -->
+
+    <!-- <div id="map"></div> -->
+    </script>
+    <!-- <script type="text/javascript">
+        var apiUrl = 'http://3.138.190.64:8080/dhp/MMI/accesstoken';
+        var token = "";
+        fetch(apiUrl).then(response => {
+            return response.json();
+        }).then(async(data) => {
+            await loadScript("https://apis.mapmyindia.com/advancedmaps/api/" + data.access_token + "/map_sdk_plugins");
+            await loadScript("https://apis.mapmyindia.com/advancedmaps/v1/" + data.access_token + "/map_load?v=1.3");
+
+        }).catch(err => {
+            // Do something for an error here
+        });
+
+        function loadScript(src) {
+            const script = document.createElement("script");
+            script.src = src;
+            script.onload = () => {
+                loadMap();
+            };
+            document.head.appendChild(script);
+        }
+
+        function loadMap() {
+            let map = new MapmyIndia.Map('map', {
+                center: [28.62, 77.09],
+                zoom: 15,
+                search: false
+            });
+            let options = {
+                map: map,
+                callback: callback_method,
+                search: true,
+            };
+            let picker = new MapmyIndia.placePicker(options);
+
+            function callback_method(data) {
+                console.log(data);
+                window.top.postMessage(
+                    JSON.stringify({
+                        error: false,
+                        message: data
+                    }),
+                    '*'
+                );
+            }
+        }
+    </script> -->
+</body>
+
+</html>

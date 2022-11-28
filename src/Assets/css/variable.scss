@@ -1,0 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700,500,600|Rubik:400,500|Nunito+Sans:400,700,600");
+$blue: #004171;
+$primary-green: #42BA85;
+$secondary-green: #00664C;
+$text-small-grey:#8e9aab;
+$secondary-line-gray:#eaeaea;
+body {
+    margin: 0;
+    font-family: 'Rubik' 'Montserrat', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /* background-color: #eaf2ef; */
+}

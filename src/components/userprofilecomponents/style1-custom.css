@@ -1,0 +1,11 @@
+.width{
+    width: 48%;
+  }
+
+@media screen and (max-width: 768px){
+
+.wid{
+   width: 100%;
+ }
+
+}
