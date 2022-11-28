@@ -91,7 +91,7 @@ function StarDoctors(props) {
               <div className="text-2xl lg:text-3xl text-gray-800 font-bold mx-1 lg:mx-10 mt-3 lg:mt-1 py-0 sm:py-7 md:py-0 lg:py-5 "  onClick={handleClickDoctor}>
                 <h1>
                   Consult
-                  with Best Doctors
+                  with Best Doctors ABCD
                 </h1>
               </div>
             </div>
