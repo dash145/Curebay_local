@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Addmemberpopup from "./userprofilecomponents/addmemberpopup";
 import moment from "moment";
 import { APP_ROUTES } from "../application/Router/constants/AppRoutes";
-import {USERPROFILE_ROUTES} from  "../application/Router/constants/UserProfileRoutes";
-import {  memberColor } from "../config/constant";
+import { USERPROFILE_ROUTES } from "../application/Router/constants/UserProfileRoutes";
+import { memberColor } from "../config/constant";
 import Down_Arrow from "../Assets/Images/Down_Arrow.svg";
 import Up_Arrow from "../Assets/Images/Up_Arrow.svg";
 import Markk from "../.../../Assets/Images/Markk.png";
@@ -48,7 +48,7 @@ function Payment() {
   const walletinfo = useSelector((state) => state.patientwallet);
   const [loadingDuringPayment, setLoadingDuringPayment] = useState(false)
   const [errorDuringPay, setErrorDuringPay] = useState("")
-  const [selectedPayMode , setSelectedPayMode] = useState({
+  const [selectedPayMode, setSelectedPayMode] = useState({
     wallet: false,
     card: false
   })
@@ -57,13 +57,13 @@ function Payment() {
     { id: "" },
   ]);
   const [message, setMessage] = useState("")
-  const [availablePackage ,setAvailablePackages] = useState([])
-	const search = useLocation().search;
-	const search_query =  new URLSearchParams(search).get('q');
-  const id_search_param =  new URLSearchParams(search).get('id');
-	const reason_search_param =  new URLSearchParams(search).get('reason');
-	const rel_search_param =  new URLSearchParams(search).get('rel');
-	const key_search_param =  new URLSearchParams(search).get('key');
+  const [availablePackage, setAvailablePackages] = useState([])
+  const search = useLocation().search;
+  const search_query = new URLSearchParams(search).get('q');
+  const id_search_param = new URLSearchParams(search).get('id');
+  const reason_search_param = new URLSearchParams(search).get('reason');
+  const rel_search_param = new URLSearchParams(search).get('rel');
+  const key_search_param = new URLSearchParams(search).get('key');
 
 
   const [memberList, setMemeberList] = useState([]);
@@ -77,13 +77,14 @@ function Payment() {
   const [verify, upDateverify] = useState("");
   const [couponCodeMsg, setCouponVerify] = useState("");
   const [couponApplyAmt, setCouponApplyAmt] = useState(0);
-  const [complain, setComplain] = useState(reason_search_param ? reason_search_param: "");
+  const [complain, setComplain] = useState(reason_search_param ? reason_search_param : "");
   const [patient, setPatient] = useState();
   const [couponList, setCouponList] = useState([]);
-  const [selectedPackageId , setSelectedPackageId] = useState({
-    packageName : "",
+  const [toshowcomplain, setShowComplain] = useState(false);
+  const [selectedPackageId, setSelectedPackageId] = useState({
+    packageName: "",
     remaining: "",
-    packageIds:"",
+    packageIds: "",
     packageCode: ""
   })
   if (localStorage.getItem("state")) {
@@ -100,11 +101,11 @@ function Payment() {
   useEffect(() => {
     dispatch(walletdetails(userData.code));
     dispatch(walletTransactiondetails(userData.code));
-    console.log(state , "iiugiuiububuibouboubuo");
+    console.log(state, "iiugiuiububuibouboubuo");
     let consulationType = state?.consultationsType == "V" ? "APPT_VIDEO" : "APPT_INPERSON"
-    DoctorService.getPackagesForDoctorPayment(userData.code, consulationType, state?.doctorType ).then(res =>{
+    DoctorService.getPackagesForDoctorPayment(userData.code, consulationType, state?.doctorType).then(res => {
       setAvailablePackages(res.data.data)
-    }).catch(err =>{
+    }).catch(err => {
       console.log(err);
     })
     // debugger
@@ -115,7 +116,7 @@ function Payment() {
 
 
   const onChange = (e) =>
-  setFormData({ ...formData, [e.target.name]: e.target.value });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   const coupon = async () => {
     if (couponCode == "") {
       setCouponVerify("Please enter valid Coupon code");
@@ -167,13 +168,13 @@ function Payment() {
 
   useEffect(() => {
 
-    console.log('sdfnksdn',JSON.stringify(couponDoctor))
+    console.log('sdfnksdn', JSON.stringify(couponDoctor))
 
 
-    if(couponListDoctor?.data?.vouchersList.length>0){
+    if (couponListDoctor?.data?.vouchersList.length > 0) {
       setCouponList([...couponListDoctor.data.vouchersList]);
-    }else{
-      dispatch(getCouponListDoctor(userData?.code,'v_doctor')).then((res) => {
+    } else {
+      dispatch(getCouponListDoctor(userData?.code, 'v_doctor')).then((res) => {
         setCouponList([...res.data.vouchersList]);
       });
     }
@@ -187,8 +188,8 @@ function Payment() {
     setAddressIndex(i);
 
     let list = [...couponList];
-    list.map((item)=>{
-      item.isDefault=false
+    list.map((item) => {
+      item.isDefault = false
 
     })
     list[i].isDefault = true;
@@ -250,7 +251,7 @@ function Payment() {
 
   const redirectTo = async (txnid) => {
     try {
-      console.log(JSON.parse(localStorage.getItem("state")) , 'ssdsdfhdoufsoudh');
+      console.log(JSON.parse(localStorage.getItem("state")), 'ssdsdfhdoufsoudh');
       let state = JSON.parse(localStorage.getItem("state"));
       let data = state;
       let patient = JSON.parse(localStorage.getItem("patient"));
@@ -267,25 +268,25 @@ function Payment() {
         localStorage.getItem("complain")
       );
       console.log(rel_search_param, id_search_param, "sfiwhgpwiehpiwehbvipwe");
-      if(rel_search_param !== "null"){
+      if (rel_search_param !== "null") {
         data["relation"] = rel_search_param
-      } else{
+      } else {
         data["relation"] = patient.relation;
       }
-      if(id_search_param !== "null"){
+      if (id_search_param !== "null") {
         data["patientId"] = id_search_param;
-      } else{
-      data["patientId"] = patient.code;
+      } else {
+        data["patientId"] = patient.code;
       }
-      data["totalAmount"]=oldTotal
-      data["payMode"]=packagePayment
-      data["voucherCode"]=voucherCode
-      data["voucherTransId"]=voucherTransId
+      data["totalAmount"] = oldTotal
+      data["payMode"] = packagePayment
+      data["voucherCode"] = voucherCode
+      data["voucherTransId"] = voucherTransId
       // console.log("dsisdvoshvsiov", data , patient, JSON.parse(localStorage.getItem("trancationid")),oldTotal, packagePayment);
-      if(key_search_param !== "null"){
-      data["isConfirm"]=1
-        dispatch(confirmPostDoctorAppointment(key_search_param , data))
-      }else{
+      if (key_search_param !== "null") {
+        data["isConfirm"] = 1
+        dispatch(confirmPostDoctorAppointment(key_search_param, data))
+      } else {
         dispatch(bookDoctorAppointment(data));
       }
       localStorage.removeItem("state");
@@ -304,7 +305,7 @@ function Payment() {
       console.log("dsisdvoshvsiov", data);
       history.push({ pathname: APP_ROUTES.APPOINMENT_CONFIRM, state: data });
     } catch (err) {
-      console.log("dsisdvoshvsiov", localStorage.getItem("state") , localStorage.getItem("patient"), localStorage.getItem("trancationid"), localStorage.getItem("payMode"), localStorage.getItem("totalAmount"));
+      console.log("dsisdvoshvsiov", localStorage.getItem("state"), localStorage.getItem("patient"), localStorage.getItem("trancationid"), localStorage.getItem("payMode"), localStorage.getItem("totalAmount"));
 
 
       localStorage.removeItem("state");
@@ -321,7 +322,7 @@ function Payment() {
     }
   };
 
-  const confirmAppontmentWithoutPay = async () =>{
+  const confirmAppontmentWithoutPay = async () => {
     try {
       let data = state;
       // data["txnId"] = localStorage.getItem("trancationid")
@@ -331,13 +332,13 @@ function Payment() {
       console.log(data, "sldvhsdvhsoduvh");
       dispatch(bookDoctorAppointment(data));
       setMessage("Our Customer support will contact you shortly for confirming the booking.")
-      let clear = setTimeout(() =>{
+      let clear = setTimeout(() => {
         clearTimeout(clear)
         setMessage("")
         history.push({ pathname: USERPROFILE_ROUTES.MYAPPOINTMENTS });
       }, 2500)
     } catch (err) {
-      console.log("dsisdvoshvsiov", localStorage.getItem("state") , localStorage.getItem("patient"), localStorage.getItem("trancationid"), localStorage.getItem("payMode"), localStorage.getItem("totalAmount"));
+      console.log("dsisdvoshvsiov", localStorage.getItem("state"), localStorage.getItem("patient"), localStorage.getItem("trancationid"), localStorage.getItem("payMode"), localStorage.getItem("totalAmount"));
 
 
       localStorage.removeItem("state");
@@ -355,46 +356,64 @@ function Payment() {
   console.log("complain", complain);
 
   const DoPayment = () => {
+    if (complain.length == 0) {
+      setShowComplain(true)
+
+    } else {
+      setShowComplain(false)
+    }
+    setTimeout(() => {
+      if (complain.length == 0) {
+        setShowComplain(false)
+
+
+
+      }
+    }, 3000);
+    if (complain.length == 0 )
+    {return
+    }
     if (couponCode == "" && !openDialog) {
-     setDialog(true)
-     return
+      setDialog(true)
+      return
     }
     setIsUserReadyToPay(true)
 
   };
 
 
-  const DoPay = async  ()  =>{
+  const DoPay = async () => {
+
 
     setErrorDuringPay("")
-    if(!selectedPayMode.wallet && !selectedPayMode.card){
+    if (!selectedPayMode.wallet && !selectedPayMode.card) {
       toast("Please select payment mode.")
       return
     }
     let amount = oldTotal !== 0 ? oldTotal.toString() : 1;
 
-    if(selectedPayMode.wallet){
-      if(amount > walletinfo?.patientwalletinfoData?.balance){
+    if (selectedPayMode.wallet) {
+      if (amount > walletinfo?.patientwalletinfoData?.balance) {
         toast("Balance is not sufficient.")
         return;
-      } else{
+      } else {
         setLoadingDuringPayment(true);
 
-        let payload={
+        let payload = {
 
-            "patientCode": userData?.code,
-            "doctorCode":state?.userId,
-            "hospitalCode":state?.hospitalId,
-            "locationCode":state?.locationId,
-            "appointmentTimeFrom":state?.fromTime,
-            "appointmentTimeTo":state?.toTime,
-            "appointmentType":state?.consultationsType,
-            "appointmentReason": reason_search_param ? reason_search_param : complain,
-            "appointmentAmount":amount
+          "patientCode": userData?.code,
+          "doctorCode": state?.userId,
+          "hospitalCode": state?.hospitalId,
+          "locationCode": state?.locationId,
+          "appointmentTimeFrom": state?.fromTime,
+          "appointmentTimeTo": state?.toTime,
+          "appointmentType": state?.consultationsType,
+          "appointmentReason": reason_search_param ? reason_search_param : complain,
+          "appointmentAmount": amount
         }
-        let data = await http.put(`${process.env.REACT_APP_BASEURL}api/v1/payments/wallet/appointment`,payload)
-        console.log(data , "dsjfsduhfoshfoisd");
-        if(data.data.statusCode ==  200){
+        let data = await http.put(`${process.env.REACT_APP_BASEURL}api/v1/payments/wallet/appointment`, payload)
+        console.log(data, "dsjfsduhfoshfoisd");
+        if (data.data.statusCode == 200) {
           setLoadingDuringPayment(false)
           setIsUserReadyToPay(false)
           let d = new Date();
@@ -405,41 +424,41 @@ function Payment() {
           localStorage.setItem("redirectUrl", APP_ROUTES.PAYMENT);
           localStorage.setItem("patient", JSON.stringify(patient));
           localStorage.setItem("trancationid", JSON.stringify(data.data.data.transcationId));
-          localStorage.setItem("payMode" , "CureBay wallet")
-          localStorage.setItem("paymentRemarks",'Your Order placed successfully')
+          localStorage.setItem("payMode", "CureBay wallet")
+          localStorage.setItem("paymentRemarks", 'Your Order placed successfully')
           localStorage.setItem("key_search_param", key_search_param)
           localStorage.setItem("id_search_param", id_search_param)
           localStorage.setItem("rel_search_param", rel_search_param)
           redirectTo(data.data.data.transcationId)
-        } else{
+        } else {
           setLoadingDuringPayment(false)
           setErrorDuringPay("Something went wrong try again.")
         }
       }
     }
 
-    if(selectedPayMode.card){
+    if (selectedPayMode.card) {
 
-        let d = new Date();
-    let txdId = tId ? tId : d.getTime().toString();
-    let amount = oldTotal !== 0 ? oldTotal.toString() : 1;
-    console.log("amount", amount);
-    let firstName = patient.firstName.split(/\s/).join("");
-    localStorage.setItem("totalAmount", JSON.stringify(amount));
-    localStorage.setItem("state", JSON.stringify(state));
-    localStorage.setItem("complain", JSON.stringify(complain));
-    localStorage.setItem("redirectUrl", APP_ROUTES.PAYMENT);
-    localStorage.setItem("patient", JSON.stringify(patient));
-    localStorage.setItem("key_search_param", key_search_param)
-    localStorage.setItem("payMode" , "CC")
-    localStorage.setItem("id_search_param", id_search_param)
-    localStorage.setItem("rel_search_param", rel_search_param)
-    const url =
-      process.env.REACT_APP_PAYU_BASEURL +
-      `patientId=${patient.code}&amount=${amount}&firstname=${firstName}&email=${patient.email}&phone=${patient.mobile}&productinfo=doctorpayment&udf1=Patient&service_provider=payu_paisa`;
-    window.location.replace(url);
+      let d = new Date();
+      let txdId = tId ? tId : d.getTime().toString();
+      let amount = oldTotal !== 0 ? oldTotal.toString() : 1;
+      console.log("amount", amount);
+      let firstName = patient.firstName.split(/\s/).join("");
+      localStorage.setItem("totalAmount", JSON.stringify(amount));
+      localStorage.setItem("state", JSON.stringify(state));
+      localStorage.setItem("complain", JSON.stringify(complain));
+      localStorage.setItem("redirectUrl", APP_ROUTES.PAYMENT);
+      localStorage.setItem("patient", JSON.stringify(patient));
+      localStorage.setItem("key_search_param", key_search_param)
+      localStorage.setItem("payMode", "CC")
+      localStorage.setItem("id_search_param", id_search_param)
+      localStorage.setItem("rel_search_param", rel_search_param)
+      const url =
+        process.env.REACT_APP_PAYU_BASEURL +
+        `patientId=${patient.code}&amount=${amount}&firstname=${firstName}&email=${patient.email}&phone=${patient.mobile}&productinfo=doctorpayment&udf1=Patient&service_provider=payu_paisa`;
+      window.location.replace(url);
 
-        // redirectAfterTxn("7575757858767");
+      // redirectAfterTxn("7575757858767");
 
 
     }
@@ -462,12 +481,12 @@ function Payment() {
     dispatch(getPatientfamilymembers(userData.code));
   }, [showaddmemberpopup, patientinfoData, isLoading]);
 
-  const onSelectPackage = (res) =>{
-    if(selectedPackageId.packageIds == res.id){
+  const onSelectPackage = (res) => {
+    if (selectedPackageId.packageIds == res.id) {
       setSelectedPackageId("")
-    } else{
+    } else {
       setSelectedPackageId({
-        packageIds : res.id,
+        packageIds: res.id,
         packageName: res.packageName,
         remaining: res.remaining,
         packageCode: res.packageCode
@@ -476,28 +495,28 @@ function Payment() {
     }
   }
 
-  const onRedeemNow = async () =>{
+  const onRedeemNow = async () => {
     try {
       let data = state
       data["remaining"] = selectedPackageId.remaining;
       data["packageIds"] = selectedPackageId.packageIds;
-      data["packageStatus"]= 1
-      data["packageName"]=selectedPackageId.packageName
-      data["packageCode"]=selectedPackageId.packageCode
-      data["consultationsReason"]= complain
+      data["packageStatus"] = 1
+      data["packageName"] = selectedPackageId.packageName
+      data["packageCode"] = selectedPackageId.packageCode
+      data["consultationsReason"] = complain
       // data["modifiedBy"] = patient.code
-      data["email"] = patient.email ? patient.email :  userData.email
+      data["email"] = patient.email ? patient.email : userData.email
       data["patientId"] = patient.code
       data["amount"] = null
       data["patientName"] = patient?.firstName + patient?.lastName
-      console.log(data , "sadnsdlsoidbobvwdosd" , patient);
+      console.log(data, "sadnsdlsoidbobvwdosd", patient);
       dispatch(bookDoctorAppointment(data));
       history.push({ pathname: APP_ROUTES.APPOINMENT_CONFIRM, state: data });
     } catch (err) {
     }
   }
 
-  console.log(selectedPackageId , "selectedPackageId");
+  console.log(selectedPackageId, "selectedPackageId");
 
   return (
     <>
@@ -563,7 +582,7 @@ function Payment() {
                     <div className="flex pl-1 ">
                       <input
                         type="radio"
-                        checked={user.code ===  (id_search_param ? id_search_param : patient.code)}
+                        checked={user.code === (id_search_param ? id_search_param : patient.code)}
                         className="form-radio mt-4 mr-2"
                         name="accountType"
                         value="personal"
@@ -586,9 +605,8 @@ function Payment() {
                         </p> */}
 
                         <div
-                          className={`h text-center px-2 flex justify-center bg-brand-${
-                            memberColor[user?.relation]
-                          } rounded-2xl`}
+                          className={`h text-center px-2 flex justify-center bg-brand-${memberColor[user?.relation]
+                            } rounded-2xl`}
                         >
                           <p className="text-sm text-white font-medium">
                             {user?.relation}
@@ -611,43 +629,48 @@ function Payment() {
                   type="text"
                   className="peer pl-2 bg-transparent w-full md:w-11/12 h-10 border-b border-gray-300 focus:outline-none truncate"
                   onChange={(e) => {
-                    if(!reason_search_param){
+                    if (!reason_search_param) {
                       setComplain(e.target.value)
-                    }}}
+                    }
+                  }}
                   placeholder="To book appointment, Please enter your Symptoms/Complaints"
                   value={complain}
                 />
-              </div>
+
+              </div>{
+                toshowcomplain && <p>Please Enter the Complain</p>
+              }
+
               <label
                 for="chemicalAllergy"
                 className="absolute md:left-0 -top-3.5  text-brand-manatee text-sm font-medium md:font-normal md:text-xs "
               >
-                Chief Complaints{" "}
+                Chief Complaints <span style={{ color: 'red' }}>*</span>{" "}
               </label>
             </div>
             {availablePackage?.length ?
-            <>
-            <div className="ml-2 mt-4 font-bold text-md ">Available Packages to Redeem</div>
-            <div className="flex my-2 mx-2 overflow-x-scroll overflow-auto">
+              <>
+                <div className="ml-2 mt-4 font-bold text-md ">Available Packages to Redeem</div>
+                <div className="flex my-2 mx-2 overflow-x-scroll overflow-auto">
 
-              {
-                availablePackage.map(res =>{
-                  return <div style={{minWidth: "190px"}} className= {` cursor-pointer rounded px-6 py-4 light-blue mr-2 ${res.id == selectedPackageId.packageIds ? "border border-blue-600" : ""}`} onClick={() => onSelectPackage(res)}>
-                    <div className="font-medium text-sm mb-2"> {res.packageName} </div>
-                    <div className="text-right font-normal text-sm"> Remaining: {res.remaining} </div>
-                     </div>
-                })
-              }
-            </div> </>: null}
+                  {
+                    availablePackage.map(res => {
+                      return <div style={{ minWidth: "190px" }} className={` cursor-pointer rounded px-6 py-4 light-blue mr-2 ${res.id == selectedPackageId.packageIds ? "border border-blue-600" : ""}`} onClick={() => onSelectPackage(res)}>
+                        <div className="font-medium text-sm mb-2"> {res.packageName} </div>
+                        <div className="text-right font-normal text-sm"> Remaining: {res.remaining} </div>
+                      </div>
+                    })
+                  }
+                </div> </> : null}
             {!selectedPackageId.packageIds ? <div className="flex justify-end" > <button
-              onClick={search_query== "confirm"? confirmAppontmentWithoutPay : DoPayment}
-              disabled={((complain === "" ? true : false) || message ? true : false )}
+              onClick={search_query == "confirm" ? confirmAppontmentWithoutPay : DoPayment}
+              //disabled={((complain === "" ? true : false) || message ? true : false )}
               className="hidden md:block bg-brand-secondary mr-6 text-white  py-2 px-4 rounded text-sm mt-4 disabled:opacity-50"
             >
-              {search_query== "confirm" ? "Confirm": "Pay"}
+              {search_query == "confirm" ? "Confirm" : "Pay"}
             </button> </div> : <div className="flex justify-end"><button
               onClick={onRedeemNow}
-              disabled={complain === "" ? true : false}
+              //disabled={complain === "" ? true : false}
               className="hidden md:block bg-brand-secondary mr-6 text-white  py-2 px-4 rounded text-sm mt-4 disabled:opacity-50"
             >
               Redeem Now
@@ -674,9 +697,8 @@ function Payment() {
                   </div>
                   <div className="flex justify-between mt-2">
                     <div
-                      className={`h-4 text-center px-2 flex justify-center bg-brand-${
-                        memberColor[patient?.relation]
-                      } rounded-2xl`}
+                      className={`h-4 text-center px-2 flex justify-center bg-brand-${memberColor[patient?.relation]
+                        } rounded-2xl`}
                     >
                       <p className="text-xs text-white">{patient?.relation} </p>
                     </div>
@@ -690,7 +712,7 @@ function Payment() {
                 </div>
               </div>
               <hr className="mt-2" />
-             {search_query == "confirm" ? null :  <div>
+              {search_query == "confirm" ? null : <div>
                 <input
                   name="couponCode"
                   placeholder="Enter Coupon Code"
@@ -699,7 +721,7 @@ function Payment() {
                   onChange={(e) => onChange(e)}
                 />
               </div>}
-             {search_query == "confirm" ? null : <div className="flex gap-4 w-60">
+              {search_query == "confirm" ? null : <div className="flex gap-4 w-60">
                 <button
                   className="my-2 w-40 bg-brand-primary text-sm h-12 rounded-md text-white font-normal "
                   onClick={coupon}
@@ -710,14 +732,14 @@ function Payment() {
 
               </div>}
               <span
-                  className={
-                    verify
-                      ? `text-green-600 mt-3  text-sm`
-                      : `text-red-600 mt-3 text-sm `
-                  }
-                >
-                  {couponCodeMsg}
-                </span>
+                className={
+                  verify
+                    ? `text-green-600 mt-3  text-sm`
+                    : `text-red-600 mt-3 text-sm `
+                }
+              >
+                {couponCodeMsg}
+              </span>
 
 
               <hr className="mt-2 mb-2" />
@@ -726,14 +748,14 @@ function Payment() {
                 <p>₹ {state?.amount ? state?.amount : 1}/-</p>
               </div>
               {
-                state?.amount- oldTotal >0 &&
+                state?.amount - oldTotal > 0 &&
 
-              <div className="flex justify-between mt-3">
-                <p className="text-green-900 font-medium">Discount</p>
-                <p className="text-green-900 font-medium" name="Discount">
-                 - ₹ {state?.amount- oldTotal}/-{" "}
-                </p>
-              </div>
+                <div className="flex justify-between mt-3">
+                  <p className="text-green-900 font-medium">Discount</p>
+                  <p className="text-green-900 font-medium" name="Discount">
+                    - ₹ {state?.amount - oldTotal}/-{" "}
+                  </p>
+                </div>
               }
 
               <hr className="mt-2 mb-2" />
@@ -746,7 +768,7 @@ function Payment() {
 
               <hr className="mt-2 mb-2" />
 
-             {search_query == "confirm" ? null : <div>
+              {search_query == "confirm" ? null : <div>
                 <div className="flex my-3">
                   <p
                     className="text-sm lg:text-base font-normal  not-italic "
@@ -793,7 +815,7 @@ function Payment() {
                             )}
 
                             <p
-                          className="text-sm lg:text-base font-normal leading-6 not-italic"
+                              className="text-sm lg:text-base font-normal leading-6 not-italic"
                               style={{ color: "#3A3A3A" }}
                             >
                               {item.title}
@@ -806,7 +828,7 @@ function Payment() {
                             {item.voucherCode}
                           </p>
 
-                          <p  style={{ color: "#005D8D" }} className="text-sm lg:text-base font-normal leading-6 not-italic font-[500]" >
+                          <p style={{ color: "#005D8D" }} className="text-sm lg:text-base font-normal leading-6 not-italic font-[500]" >
                             {item.voucherCampDescription}
                           </p>
                         </div>
@@ -820,11 +842,11 @@ function Payment() {
           </div>
           <div className="flex w-full justify-center md:hidden">
             {!selectedPackageId.packageIds ? <button
-              onClick={search_query== "confirm"? confirmAppontmentWithoutPay : DoPayment}
-              disabled={((complain === "" ? true : false) || message ? true : false )}
+              onClick={search_query == "confirm" ? confirmAppontmentWithoutPay : DoPayment}
+              disabled={((complain === "" ? true : false) || message ? true : false)}
               className=" bg-brand-secondary text-white  py-2 w-full sm:w-2/12 rounded text-sm mt-4 disabled:opacity-50"
             >
-            {search_query== "confirm" ? "Confirm": "Pay"}
+              {search_query == "confirm" ? "Confirm" : "Pay"}
             </button> : <button
               onClick={onRedeemNow}
               disabled={complain === "" ? true : false}
@@ -846,11 +868,11 @@ function Payment() {
       <Dialog
         visible={openDialog}
         showHeader={true}
-      header = {<div className="font my-2 mx-4 mt-5">
-      Please select coupon for better discount
-    </div>}
+        header={<div className="font my-2 mx-4 mt-5">
+          Please select coupon for better discount
+        </div>}
         modal={true}
-        style={{ width: "500px"}}
+        style={{ width: "500px" }}
         //  className="w-100 h-auto"
         onHide={() => setDialog(false)}
       >
@@ -860,56 +882,56 @@ function Payment() {
 
             <div className="flex flex-col md:flex-row items-center justify-around mt-5">
 
-            <button
-              className="my-2 w-40 bg-brand-primary text-sm h-6 rounded-md text-white font-normal "
-              onClick={()=>setDialog(false)}
-            >
-              Select Coupon
-            </button>
+              <button
+                className="my-2 w-40 bg-brand-primary text-sm h-6 rounded-md text-white font-normal "
+                onClick={() => setDialog(false)}
+              >
+                Select Coupon
+              </button>
 
-            <button
-              className="my-2 w-60 bg-brand-primary text-sm h-6 rounded-md text-white font-normal "
-              onClick={DoPayment}
-              disabled={complain === "" ? true : false}
-            >
+              <button
+                className="my-2 w-60 bg-brand-primary text-sm h-6 rounded-md text-white font-normal "
+                onClick={DoPayment}
+                disabled={complain === "" ? true : false}
+              >
 
-             Proceed without Coupon
-            </button>
+                Proceed without Coupon
+              </button>
             </div>
 
-            </div>
+          </div>
 
 
         </>
       </Dialog>
 
-      { isUserReadyToPay? (
+      {isUserReadyToPay ? (
 
-<Dialog
-  header="Select Payment Mode"
-  visible={isUserReadyToPay}
-  modal={true}
-  className="w-11/12 md:w-96"
-  onHide={() => setIsUserReadyToPay(false)}
->
-  <div>
-    <div>
-      <div className="flex  font-medium text-sm justify-between items-center py-2 px-6 rounded mb-2 cursor-pointer" style={{backgroundColor:"#e5e6e7",  border: selectedPayMode.wallet ? "2px solid #66B889" :""}} onClick ={() => setSelectedPayMode({wallet: true, card: false})}>CureBay wallet -  Rs {walletinfo?.patientwalletinfoData?.balance && walletinfo?.patientwalletinfoData?.balance.toFixed(2)} <i className="pi pi-angle-right"></i></div>
-    </div>
-    <div className="flex justify-between  font-medium text-sm items-center py-2 px-6 rounded cursor-pointer" style={{backgroundColor:"#e5e6e7" ,   border: selectedPayMode.card ? "2px solid #66B889" :""}} onClick ={() => setSelectedPayMode({wallet: false, card: true})}>Debit/Credit Cards/UPI & Others <i className="pi pi-angle-right"></i></div>
-    <div className="text-center">
-    <button className=" font-normal text-xs py-2 px-6 rounded mt-4" style={{backgroundColor:"#66B889", color:"#ffff"}} onClick ={DoPay}>Pay{loadingDuringPayment && (
-                  <div className="loader float-right ease-linear text-center rounded-full border-2 border-t-2 border-gray-200 h-5 w-5"></div>
-                )}</button>
-    </div>
-    {
-      errorDuringPay.length > 0 ? <div style={{color:"red"}} className="font-normal text-sm"> {errorDuringPay} </div> : ""
-    }
-  </div>
-</Dialog>
-) : (
-""
-)}
+        <Dialog
+          header="Select Payment Mode"
+          visible={isUserReadyToPay}
+          modal={true}
+          className="w-11/12 md:w-96"
+          onHide={() => setIsUserReadyToPay(false)}
+        >
+          <div>
+            <div>
+              <div className="flex  font-medium text-sm justify-between items-center py-2 px-6 rounded mb-2 cursor-pointer" style={{ backgroundColor: "#e5e6e7", border: selectedPayMode.wallet ? "2px solid #66B889" : "" }} onClick={() => setSelectedPayMode({ wallet: true, card: false })}>CureBay wallet -  Rs {walletinfo?.patientwalletinfoData?.balance && walletinfo?.patientwalletinfoData?.balance.toFixed(2)} <i className="pi pi-angle-right"></i></div>
+            </div>
+            <div className="flex justify-between  font-medium text-sm items-center py-2 px-6 rounded cursor-pointer" style={{ backgroundColor: "#e5e6e7", border: selectedPayMode.card ? "2px solid #66B889" : "" }} onClick={() => setSelectedPayMode({ wallet: false, card: true })}>Debit/Credit Cards/UPI & Others <i className="pi pi-angle-right"></i></div>
+            <div className="text-center">
+              <button className=" font-normal text-xs py-2 px-6 rounded mt-4" style={{ backgroundColor: "#66B889", color: "#ffff" }} onClick={DoPay}>Pay{loadingDuringPayment && (
+                <div className="loader float-right ease-linear text-center rounded-full border-2 border-t-2 border-gray-200 h-5 w-5"></div>
+              )}</button>
+            </div>
+            {
+              errorDuringPay.length > 0 ? <div style={{ color: "red" }} className="font-normal text-sm"> {errorDuringPay} </div> : ""
+            }
+          </div>
+        </Dialog>
+      ) : (
+        ""
+      )}
     </>
   );
 }

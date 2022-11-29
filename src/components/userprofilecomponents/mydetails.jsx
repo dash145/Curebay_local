@@ -23,7 +23,9 @@ import axios from "axios";
 const salutationData = [
   {
     sal: "Select Salutation",
+    
   },
+  
 
   {
     sal: "Mr.",
@@ -497,7 +499,7 @@ function Mydetails(props) {
                     htmlFor="firstName"
                     className="absolute left-0 -top-3.5 text-gray-400 text-xs peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    First Name
+                    First Name <span style={{color: 'red'}}>*</span>
                   </label>
                 </div>
                 <div className="relative mb-4">
@@ -519,7 +521,7 @@ function Mydetails(props) {
                     htmlFor="firstName"
                     className="absolute left-0 -top-3.5 text-gray-400 text-xs peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    Last Name
+                    Last Name <span style={{color: 'red'}}>*</span>
                   </label>
                 </div>
 
@@ -569,7 +571,7 @@ function Mydetails(props) {
                     value={profile.mobile}
                     readOnly={!showinput}
                     className={`${showinput ? "border-b-2 border-gray-300 " : "border-0 "
-                      } w-11/12 md:w-20 pt-2 text-gray-900 text-xs bg-transparent focus:outline-none`}
+                      } w-11/12 md:w-20.5 pt-1 text-gray-900 text-xs bg-transparent focus:outline-none`}
                     placeholder="Enter Phonenumber"
                     onChange={handleChange}
                   />
@@ -577,7 +579,7 @@ function Mydetails(props) {
                     htmlFor="mobile"
                     className="absolute left-0 -top-3.5 text-gray-400 text-xs peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    Mobile number
+                    Mobile number <span style={{color: 'red'}}>*</span>
                   </label>
                 </div>
                 <div className="relative mb-4">
@@ -601,7 +603,7 @@ function Mydetails(props) {
                     htmlFor="email"
                     className="absolute left-0 -top-3.5 text-gray-400 text-xs peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    Email Id
+                    Email Id <span style={{color: 'red'}}>*</span>
                   </label>
                 </div>
                 <div className="relative mb-4">
@@ -627,7 +629,7 @@ function Mydetails(props) {
                     htmlFor="dob"
                     className="absolute left-0 -top-3.5 text-gray-400 text-xs peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    Date of Birth
+                    Date of Birth <span style={{color: 'red'}}>*</span>
                   </label>
                 </div>
 
@@ -678,7 +680,7 @@ function Mydetails(props) {
                     htmlFor="bloodGroup"
                     className="absolute left-0 -top-3.5 text-gray-400 text-xs peer-placeholder-shown:text-base peer-placeholder-shown:text-gray-440 peer-placeholder-shown:top-2 transition-all peer-focus:-top-3.5 peer-focus:text-gray-600 peer-focus:text-sm"
                   >
-                    Blood Group
+                    Blood Group <span style={{color: 'red'}}>*</span>
                   </label>
                 </div>
 
